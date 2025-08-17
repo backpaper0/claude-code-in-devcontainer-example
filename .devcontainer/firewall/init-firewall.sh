@@ -65,6 +65,24 @@ done < <(echo "$gh_ranges" | jq -r '(.web + .api + .git)[]' | aggregate -q)
 
 # Resolve and add other allowed domains
 for domain in \
+    "update.code.visualstudio.com" \
+    "code.visualstudio.com" \
+    "go.microsoft.com" \
+    "marketplace.visualstudio.com" \
+    "main.gallery.vsassets.io" \
+    "main.gallerycdn.vsassets.io" \
+    "rink.hockeyapp.net" \
+    "bingsettingssearch.trafficmanager.net" \
+    "vscode.search.windows.net" \
+    "vsmarketplacebadges.dev" \
+    "main.vscode-cdn.net" \
+    "vscode.download.prss.microsoft.com" \
+    "download.visualstudio.microsoft.com" \
+    "vscode-sync.trafficmanager.net" \
+    "vscode.dev" \
+    "repo.maven.apache.org" \
+    "repo.spring.io" \
+    "pypi.org" \
     "registry.npmjs.org" \
     "api.anthropic.com" \
     "sentry.io" \
@@ -73,8 +91,8 @@ for domain in \
     echo "Resolving $domain..."
     ips=$(dig +noall +answer A "$domain" | awk '$4 == "A" {print $5}')
     if [ -z "$ips" ]; then
-        echo "ERROR: Failed to resolve $domain"
-        exit 1
+        echo "WARNING: Failed to resolve $domain"
+        continue
     fi
     
     while read -r ip; do
@@ -83,7 +101,7 @@ for domain in \
             exit 1
         fi
         echo "Adding $ip for $domain"
-        ipset add allowed-domains "$ip"
+        ipset add -exist allowed-domains "$ip"
     done < <(echo "$ips")
 done
 
