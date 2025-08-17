@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+# Windowsでマウントしたディレクトリの所有者がrootになってしまう課題へ対応するスクリプト
+
 update_owner_if_needed() {
     target_dir="$1"
     current_user="vscode"
