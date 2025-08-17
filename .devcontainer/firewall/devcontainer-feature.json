@@ -2,6 +2,12 @@
     "id": "firewall",
     "version": "1.0.0",
     "name": "Firewall",
+    "options": {
+        "username": {
+            "type": "string",
+            "default": ""
+        }
+    },
     "installsAfter": [
         "ghcr.io/anthropics/devcontainer-features/claude-code"
     ]

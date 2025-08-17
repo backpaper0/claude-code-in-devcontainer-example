@@ -2,7 +2,10 @@
     "id": "workspace-owner",
     "version": "1.0.0",
     "name": "Workspace owner",
-    "installsAfter": [
-        "ghcr.io/anthropics/devcontainer-features/claude-code"
-    ]
+    "options": {
+        "username": {
+            "type": "string",
+            "default": ""
+        }
+    }
 }
