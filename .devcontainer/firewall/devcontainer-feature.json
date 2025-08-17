@@ -1,0 +1,8 @@
+{
+    "id": "firewall",
+    "version": "1.0.0",
+    "name": "Firewall",
+    "installsAfter": [
+        "ghcr.io/anthropics/devcontainer-features/claude-code"
+    ]
+}
