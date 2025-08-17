@@ -1,0 +1,14 @@
+services:
+  claude-code:
+    build:
+      context: claude-code
+      dockerfile: Dockerfile
+    command: ["/bin/sh", "-c", "while sleep 1000; do :; done"]
+    cap_add: ["NET_ADMIN", "NET_RAW"]
+    volumes:
+      - "../:/workspace"
+
+  owattayo:
+    image: ghcr.io/backpaper0/owattayo:v1
+    environment:
+      - DISCORD_WEBHOOK_URL

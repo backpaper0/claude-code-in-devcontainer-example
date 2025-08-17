@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "curl -XPOST http://owattayo:8000/notify"
+          }
+        ]
+      }
+    ]
+  }
+}

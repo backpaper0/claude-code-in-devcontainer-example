@@ -1,0 +1,40 @@
+{
+	"name": "Claude Code in Dev Container example",
+	"dockerComposeFile": "compose.yaml",
+	"service": "claude-code",
+	"features": {
+		"ghcr.io/devcontainers/features/python": {
+			"version": "none",
+			"toolsToInstall": "uv,pre-commit"
+		},
+		"ghcr.io/devcontainers/features/node": {},
+		"ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
+		"./firewall": {}
+	},
+	"containerEnv": {
+		"CLAUDE_CONFIG_DIR": "/home/vscode/.claude",
+		"UV_LINK_MODE": "copy"
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"charliermarsh.ruff",
+				"redhat.vscode-yaml"
+			],
+			"settings": {
+				"[python]": {
+					"editor.defaultFormatter": "charliermarsh.ruff",
+					"editor.formatOnSave": true
+				},
+				"python.defaultInterpreterPath": "/workspace/.venv/bin/python"
+			}
+		}
+	},
+	"remoteUser": "vscode",
+	"workspaceFolder": "/workspace",
+	"postCreateCommand": "sudo /usr/local/bin/init-firewall.sh",
+	"mounts": [
+		"source=claude-code-config,target=/home/vscode/.claude,type=volume"
+	]
+}
