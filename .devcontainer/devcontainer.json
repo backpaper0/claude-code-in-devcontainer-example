@@ -9,10 +9,13 @@
 		},
 		"ghcr.io/devcontainers/features/node": {},
 		"ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
-		"./firewall": {}
+		"./firewall": {},
+		"./workspace-owner": {}
 	},
 	"containerEnv": {
 		"CLAUDE_CONFIG_DIR": "/home/vscode/.claude",
+		"PROMPT_COMMAND": "history -a",
+		"HISTFILE": "/commandhistory/.bash_history",
 		"UV_LINK_MODE": "copy"
 	},
 	"customizations": {
@@ -33,8 +36,9 @@
 	},
 	"remoteUser": "vscode",
 	"workspaceFolder": "/workspace",
-	"postCreateCommand": "sudo /usr/local/bin/init-firewall.sh",
+	"postCreateCommand": "sudo /usr/local/bin/init-firewall.sh && sudo /usr/local/bin/update-workspace-owner.sh",
 	"mounts": [
+		"source=claude-code-bashhistory,target=/commandhistory,type=volume",
 		"source=claude-code-config,target=/home/vscode/.claude,type=volume"
 	]
 }

@@ -6,18 +6,6 @@
 
 firewallの設定方法は、Claude CodeのDev Container参照実装である https://github.com/anthropics/claude-code/ をベースにしています。
 
-> [!NOTE]
-> **既知の課題**
-> 
-> Rancher Desktopなどを使用しておりホストがWindowsの場合、Windowsホスト側にあるディレクトリをマウントしたらコンテナ側では所有者が必ず`root`ユーザーになってしまいます。
-> 追って対応は行いますが、ひとまず手動で所有者を`vscode`ユーザーへ変更することでこの課題を回避できます。
-> 
-> 手動で回避する場合、少し工夫が必要です。`vscode`ユーザーは`chown`できないため、`docker exec -u root`で`root`ユーザーとして操作を行います。
-> 
-> ```
-> docker exec -u root <対象のコンテナ> chown -R vscode:vscode /workspace
-> ```
-
 ## 構成要素
 
 - **Dev Container**: VS Code Dev Container環境でClaude Codeを実行
