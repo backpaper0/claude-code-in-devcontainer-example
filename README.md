@@ -8,6 +8,7 @@ firewallの設定方法は、Claude CodeのDev Container参照実装である ht
 
 > [!NOTE]
 > **既知の課題**
+> 
 > Rancher Desktopなどを使用しておりホストがWindowsの場合、Windowsホスト側にあるディレクトリをマウントしたらコンテナ側では所有者が必ず`root`ユーザーになってしまいます。
 > 追って対応は行いますが、ひとまず手動で所有者を`vscode`ユーザーへ変更することでこの課題を回避できます。
 > 
