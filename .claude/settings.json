@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "curl -XPOST http://owattayo:8000/notify"
+            "command": "curl -X POST http://owattayo:8000/notify -H \"Content-Type: application/json\" -d @-"
           }
         ]
       }

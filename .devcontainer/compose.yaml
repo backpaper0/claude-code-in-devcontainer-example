@@ -9,6 +9,8 @@ services:
       - "../:/workspace"
 
   owattayo:
-    image: ghcr.io/backpaper0/owattayo:v1
+    image: ghcr.io/backpaper0/owattayo:v3
     environment:
       - DISCORD_WEBHOOK_URL
+    volumes_from:
+      - claude-code:ro
