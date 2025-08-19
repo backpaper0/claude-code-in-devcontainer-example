@@ -9,7 +9,7 @@ services:
       - "../:/workspace"
 
   owattayo:
-    image: ghcr.io/backpaper0/owattayo:v4
+    image: ghcr.io/backpaper0/owattayo:v5
     ports: ["8000:8000"]
     environment:
       - DISCORD_WEBHOOK_URL
