@@ -1,5 +1,10 @@
 # Claude Code in Dev Container example
 
+> [!NOTE]
+> 「[Claude Codeをなるべく安全に動かすためのDev Containerを構築した](https://zenn.dev/backpaper0/articles/038838c4cec2a8)」からこのリポジトリを訪れた方へ。
+> 記事を書いてからも開発を進めているため、本リポジトリの内容は記事の内容と乖離していると思います。
+> 記事執筆時点の本リポジトリがどのような状態だったか見たい場合は[`zenn/2025-08-19`タグ](https://github.com/backpaper0/claude-code-in-devcontainer-example/tree/zenn/2025-08-19)をご覧ください。
+
 ## 概要
 
 このプロジェクトは、Claude CodeをDev Container環境で動作させるための構成例を提供します。
