@@ -43,7 +43,7 @@
 	},
 	"remoteUser": "vscode",
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-	"postCreateCommand": "sudo /usr/local/bin/init-firewall.sh && sudo /usr/local/bin/update-workspace-owner.sh vscode",
+	"postStartCommand": "sudo /usr/local/bin/init-firewall.sh && sudo /usr/local/bin/update-workspace-owner.sh vscode",
 	"mounts": [
 		"source=../,target=/workspaces/${localWorkspaceFolderBasename},type=bind",
 		"source=claude-code-bashhistory,target=/commandhistory,type=volume",
