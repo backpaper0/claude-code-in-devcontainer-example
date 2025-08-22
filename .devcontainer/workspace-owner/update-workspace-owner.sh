@@ -4,9 +4,13 @@ set -euo pipefail
 # Windowsでマウントしたディレクトリの所有者がrootになってしまう課題へ対応するスクリプト
 
 USERNAME=${1}; shift
+WORKSPACE_FOLDER_BASENAME=${1}; shift
 
 update_owner_if_needed() {
     target_dir=${1}; shift
+    if [ ! -d "${target_dir}" ]; then
+        return 0
+    fi
     current_user="${USERNAME}"
     current_owner=$(sudo -u ${current_user} ls -ld ${target_dir} | awk '{print $3}')
     if [[ "${current_owner}" == "${current_user}" ]]; then
@@ -17,6 +21,6 @@ update_owner_if_needed() {
     sudo chown -R ${current_user}:${current_user} ${target_dir}
 }
 
-for target_dir in "/workspaces" "/commandhistory" "/home/${USERNAME}/.claude"; do
+for target_dir in "/workspaces/${WORKSPACE_FOLDER_BASENAME}" "/commandhistory" "/home/${USERNAME}/.claude"; do
     update_owner_if_needed "${target_dir}"
 done

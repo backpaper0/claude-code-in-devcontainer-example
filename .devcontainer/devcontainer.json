@@ -43,7 +43,7 @@
 	},
 	"remoteUser": "vscode",
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-	"postStartCommand": "sudo /usr/local/bin/init-firewall.sh && sudo /usr/local/bin/update-workspace-owner.sh vscode",
+	"postStartCommand": "sudo /usr/local/bin/init-firewall.sh && sudo /usr/local/bin/update-workspace-owner.sh vscode '${localWorkspaceFolderBasename}'",
 	"waitFor": "postStartCommand",
 	"mounts": [
 		"source=../,target=/workspaces/${localWorkspaceFolderBasename},type=bind",

@@ -11,9 +11,6 @@ if [ -z "${USERNAME}"]; then
     exit 1
 fi
 
-mkdir -p /workspaces
-chown -R ${USERNAME}:${USERNAME} /workspaces
-
 mkdir -p /home/${USERNAME}/.claude
 chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/.claude
 
