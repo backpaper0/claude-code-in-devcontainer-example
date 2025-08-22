@@ -23,12 +23,10 @@ firewallの設定方法は、Claude CodeのDev Container参照実装である ht
 .devcontainer/
 ├── devcontainer.json              # デフォルトDev Container設定ファイル
 ├── compose.yaml                   # デフォルトDocker Compose設定
-├── claude-code/
-│   └── Dockerfile                 # Claude Code用Dockerイメージ
-├── firewall/
-│   ├── devcontainer-feature.json  # Firewall機能の設定
-│   ├── install.sh                 # Firewall環境セットアップ
-│   └── init-firewall.sh           # Firewall初期化スクリプト
+├── setup-for-claude-code/
+│   ├── devcontainer-feature.json  # Claude Code環境セットアップ機能の設定
+│   ├── install.sh                 # Claude Code環境とファイアウォールのセットアップ
+│   └── init-firewall.sh           # ファイアウォール初期化スクリプト
 ├── without-owattayo/
 │   └── devcontainer.json          # Owattayo分離版Dev Container設定
 └── workspace-owner/
@@ -42,7 +40,7 @@ firewallの設定方法は、Claude CodeのDev Container参照実装である ht
 ### 1. Claude Code統合
 
 - `ghcr.io/anthropics/devcontainer-features/claude-code:1.0`フィーチャーを使用
-- Python 3.12環境にClaude Codeをインストール
+- Microsoft公式のPython 3.12ベースイメージ（`mcr.microsoft.com/devcontainers/python:1-3.12-bullseye`）を使用
 - uv、pre-commitツールを含む開発環境
 
 ### 2. Firewallセキュリティ
@@ -149,9 +147,9 @@ graph TD
    - 設定を選択するプロンプトが表示された場合、使用したい設定を選択
 
 4. **自動セットアップ**
-   - Dockerイメージのビルドが自動で開始されます
+   - Microsoft公式のPython 3.12ベースイメージが使用されます
    - Python環境、Claude Code、開発ツールがインストールされます
-   - Firewallが自動で設定されます（`postCreateCommand`により実行）
+   - ファイアウォールが自動で設定されます（`postCreateCommand`により実行）
 
 5. **動作確認**
 
@@ -174,9 +172,9 @@ graph TD
 
 ## カスタマイズ
 
-### Firewallの許可ドメイン追加
+### ファイアウォールの許可ドメイン追加
 
-`init-firewall.sh`の67-90行目のドメインリストに新しいドメインを追加:
+`.devcontainer/setup-for-claude-code/init-firewall.sh`の67-90行目のドメインリストに新しいドメインを追加:
 
 **注意**: スクリプトはDNS解決によりドメインのIPアドレスを動的に取得し、ipsetに追加します。GitHubのIP範囲は専用のAPI（`https://api.github.com/meta`）から自動取得されます。
 

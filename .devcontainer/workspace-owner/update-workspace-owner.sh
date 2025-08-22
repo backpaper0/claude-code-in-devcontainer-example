@@ -17,6 +17,6 @@ update_owner_if_needed() {
     sudo chown -R ${current_user}:${current_user} ${target_dir}
 }
 
-for target_dir in "/workspace" "/commandhistory" "/home/${USERNAME}/.claude"; do
+for target_dir in "/workspaces" "/commandhistory" "/home/${USERNAME}/.claude"; do
     update_owner_if_needed "${target_dir}"
 done

@@ -1,8 +1,6 @@
 {
 	"name": "Claude Code in Dev Container example",
-	"build": {
-		"dockerfile": "../claude-code/Dockerfile"
-	},
+	"image": "mcr.microsoft.com/devcontainers/python:1-3.12-bullseye",
 	"runArgs": [
 		"--cap-add=NET_ADMIN",
 		"--cap-add=NET_RAW",
@@ -15,7 +13,7 @@
 		},
 		"ghcr.io/devcontainers/features/node": {},
 		"ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
-		"../firewall": {
+		"../setup-for-claude-code": {
 			"username": "vscode"
 		},
 		"../workspace-owner": {

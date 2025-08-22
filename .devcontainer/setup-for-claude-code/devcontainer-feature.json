@@ -1,7 +1,7 @@
 {
-    "id": "firewall",
+    "id": "setup-for-claude-code",
     "version": "1.0.0",
-    "name": "Firewall",
+    "name": "Setup for Claude Code",
     "options": {
         "username": {
             "type": "string",

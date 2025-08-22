@@ -1,8 +1,6 @@
 services:
   claude-code:
-    build:
-      context: claude-code
-      dockerfile: Dockerfile
+    image: mcr.microsoft.com/devcontainers/python:1-3.12-bullseye
     command: ["/bin/sh", "-c", "while sleep 1000; do :; done"]
     cap_add: ["NET_ADMIN", "NET_RAW"]
     volumes:
