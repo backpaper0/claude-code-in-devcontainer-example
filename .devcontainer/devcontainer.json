@@ -18,6 +18,7 @@
 	},
 	"containerEnv": {
 		"CLAUDE_CONFIG_DIR": "/home/vscode/.claude",
+		"DISABLE_AUTOUPDATER": "1",
 		"PROMPT_COMMAND": "history -a",
 		"HISTFILE": "/commandhistory/.bash_history",
 		"UV_LINK_MODE": "copy",
