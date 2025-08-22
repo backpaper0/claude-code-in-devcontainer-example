@@ -14,5 +14,3 @@ services:
     ports: ["8000:8000"]
     environment:
       - DISCORD_WEBHOOK_URL
-    volumes_from:
-      - claude-code:ro

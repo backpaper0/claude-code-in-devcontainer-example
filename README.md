@@ -161,6 +161,28 @@ graph TD
 
 **注意**: スクリプトはDNS解決によりドメインのIPアドレスを動的に取得し、ipsetに追加します。GitHubのIP範囲は専用のAPI（`https://api.github.com/meta`）から自動取得されます。
 
+## Claude Code設定
+
+### フック設定（.claude/settings.json）
+
+Claude Codeは作業完了時にOwattayoサービス経由で通知を送信するためのSTOPフックを設定しています。
+
+**設定(Owattayoがユーザープロンプトを解決):**
+```bash
+jq -c --arg notifier $OWATTAYO_NOTIFIER '. + {notifier:$notifier}' | curl -X POST http://owattayo:8000/notify -H "Content-Type: application/json" -d @-
+```
+- StopイベントをそのままOwattayoへ送信する
+- Owattayo側ではDev Containerのボリュームをマウントしており、Stopイベントに含まれる`transcript_path`が示すファイルを直接読み込み、ユーザープロンプトを解決する
+- Owattayoがユーザープロンプトを添えて完了通知を行う
+
+**設定（Stopフックがユーザープロンプトを解決）:**
+```bash
+jq -r '.transcript_path' | xargs -I{} cat {} | jq -c 'select(.type == "user" and (has("toolUseResult") | not)) | {prompt:.message.content}' | tail -n 1 | jq -c --arg notifier $OWATTAYO_NOTIFIER '. + {notifier:$notifier}' | curl -X POST http://owattayo:8000/notify -H 'Content-Type: application/json' -d @-
+```
+- Stopフック内でStopイベントに含まれる`transcript_path`が示すファイルを直接読み込み、ユーザープロンプトを解決する
+- ユーザープロンプトをOwattayoへ送信する
+- Owattayoがユーザープロンプトを添えて完了通知を行う
+
 ### VS Code拡張機能の追加
 
 `devcontainer.json`の`customizations.vscode.extensions`配列に追加:
