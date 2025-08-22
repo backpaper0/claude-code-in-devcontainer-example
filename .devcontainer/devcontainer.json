@@ -21,7 +21,8 @@
 		"PROMPT_COMMAND": "history -a",
 		"HISTFILE": "/commandhistory/.bash_history",
 		"UV_LINK_MODE": "copy",
-		"OWATTAYO_NOTIFIER": "${localWorkspaceFolderBasename}"
+		"OWATTAYO_NOTIFIER": "${localWorkspaceFolderBasename}",
+		"SSH_AUTH_SOCK": "/ssh-agent"
 	},
 	"customizations": {
 		"vscode": {
