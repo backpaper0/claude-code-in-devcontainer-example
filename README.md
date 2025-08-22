@@ -21,14 +21,20 @@ firewallの設定方法は、Claude CodeのDev Container参照実装である ht
 
 ```
 .devcontainer/
-├── devcontainer.json          # Dev Container設定ファイル
-├── compose.yaml              # Docker Compose設定
+├── devcontainer.json              # デフォルトDev Container設定ファイル
+├── compose.yaml                   # デフォルトDocker Compose設定
 ├── claude-code/
-│   └── Dockerfile           # Claude Code用Dockerイメージ
-└── firewall/
-    ├── devcontainer-feature.json  # Firewall機能の設定
-    ├── install.sh                # Firewall環境セットアップ
-    └── init-firewall.sh          # Firewall初期化スクリプト
+│   └── Dockerfile                 # Claude Code用Dockerイメージ
+├── firewall/
+│   ├── devcontainer-feature.json  # Firewall機能の設定
+│   ├── install.sh                 # Firewall環境セットアップ
+│   └── init-firewall.sh           # Firewall初期化スクリプト
+├── without-owattayo/
+│   └── devcontainer.json          # Owattayo分離版Dev Container設定
+└── workspace-owner/
+    ├── devcontainer-feature.json  # ワークスペース所有者設定機能
+    ├── install.sh                 # 所有者設定スクリプトセットアップ
+    └── update-workspace-owner.sh  # 所有者設定スクリプト
 ```
 
 ## 機能
@@ -65,8 +71,14 @@ firewallの設定方法は、Claude CodeのDev Container参照実装である ht
 
 - HTTPリクエストを受信してDiscordに転送する通知サービス
 - Claude Codeのタスク完了時などの作業通知に使用
-- `ghcr.io/backpaper0/owattayo:v1`コンテナイメージを使用
+- `ghcr.io/backpaper0/owattayo:v7`コンテナイメージを使用
 - Discord Webhook URLによる通知設定
+
+### 5. ワークスペース所有者管理
+
+- コンテナ内でのファイル権限とワークスペース所有者を適切に設定
+- vscodeユーザーとしてワークスペースの所有権を管理
+- 開発時のファイル操作を円滑にするための権限設定
 
 ## 通知アーキテクチャ
 
@@ -124,17 +136,24 @@ graph TD
    cd <project-directory>
    ```
 
-2. **Dev Containerの起動**
+2. **Dev Container設定の選択**
+   
+   このプロジェクトでは2つのDev Container設定を提供しています：
+   - **default**: 基本的なClaude Code環境（Docker ComposeでOwattayoサービスを含む）
+   - **without-owattayo**: Owattayo分離版（Owattayoサービスは別途立てる。複数のDev Containerからの通知要求を集約する目的）
+
+3. **Dev Containerの起動**
    - VS Codeでプロジェクトを開く
    - コマンドパレット（Ctrl+Shift+P / Cmd+Shift+P）を開く
    - "Dev Containers: Reopen in Container"を実行
+   - 設定を選択するプロンプトが表示された場合、使用したい設定を選択
 
-3. **自動セットアップ**
+4. **自動セットアップ**
    - Dockerイメージのビルドが自動で開始されます
    - Python環境、Claude Code、開発ツールがインストールされます
    - Firewallが自動で設定されます（`postCreateCommand`により実行）
 
-4. **動作確認**
+5. **動作確認**
 
    ```bash
    # Claude Codeの動作確認
@@ -177,11 +196,12 @@ jq -c --arg notifier $OWATTAYO_NOTIFIER '. + {notifier:$notifier}' | curl -X POS
 
 **設定（Stopフックがユーザープロンプトを解決）:**
 ```bash
-jq -r '.transcript_path' | xargs -I{} cat {} | jq -c 'select(.type == "user" and (has("toolUseResult") | not)) | {prompt:.message.content}' | tail -n 1 | jq -c --arg notifier $OWATTAYO_NOTIFIER '. + {notifier:$notifier}' | curl -X POST http://owattayo:8000/notify -H 'Content-Type: application/json' -d @-
+jq -r '.transcript_path' | xargs -I{} cat {} | jq -c 'select(.type == "user" and (has("toolUseResult") | not)) | {prompt:.message.content}' | tail -n 1 | jq -c --arg notifier $OWATTAYO_NOTIFIER '. + {notifier:$notifier}' | curl --connect-timeout 5 -X POST http://owattayo:8000/notify -H 'Content-Type: application/json' -d @-
 ```
 - Stopフック内でStopイベントに含まれる`transcript_path`が示すファイルを直接読み込み、ユーザープロンプトを解決する
 - ユーザープロンプトをOwattayoへ送信する
 - Owattayoがユーザープロンプトを添えて完了通知を行う
+- 接続タイムアウト（5秒）を設定してより安定した動作を実現
 
 ### VS Code拡張機能の追加
 
