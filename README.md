@@ -15,20 +15,20 @@ firewallの設定方法は、Claude CodeのDev Container参照実装である ht
 
 - **Dev Container**: VS Code Dev Container環境でClaude Codeを実行
 - **Firewall**: セキュリティ強化のためのネットワーク制限機能
-- **Docker Compose**: 複数サービスのオーケストレーション
+- **Docker Compose**: 通知サービス（Owattayo）との統合（with-owattayoディレクトリ内）
 
 ## ディレクトリ構造
 
 ```
 .devcontainer/
-├── devcontainer.json              # デフォルトDev Container設定ファイル
-├── compose.yaml                   # デフォルトDocker Compose設定
+├── devcontainer.json              # デフォルトDev Container設定ファイル（Owattayo無し）
 ├── setup-for-claude-code/
 │   ├── devcontainer-feature.json  # Claude Code環境セットアップ機能の設定
 │   ├── install.sh                 # Claude Code環境とファイアウォールのセットアップ
 │   └── init-firewall.sh           # ファイアウォール初期化スクリプト
-├── without-owattayo/
-│   └── devcontainer.json          # Owattayo分離版Dev Container設定
+├── with-owattayo/
+│   ├── devcontainer.json          # Owattayo統合版Dev Container設定
+│   └── compose.yaml               # Docker Compose設定（Claude Code + Owattayo）
 └── workspace-owner/
     ├── devcontainer-feature.json  # ワークスペース所有者設定機能
     ├── install.sh                 # 所有者設定スクリプトセットアップ
@@ -137,8 +137,8 @@ graph TD
 2. **Dev Container設定の選択**
    
    このプロジェクトでは2つのDev Container設定を提供しています：
-   - **default**: 基本的なClaude Code環境（Docker ComposeでOwattayoサービスを含む）
-   - **without-owattayo**: Owattayo分離版（Owattayoサービスは別途立てる。複数のDev Containerからの通知要求を集約する目的）
+   - **default**: 基本的なClaude Code環境（Owattayo通知サービス無し）
+   - **with-owattayo**: Owattayo統合版（Docker ComposeでOwattayoサービスを含む）
 
 3. **Dev Containerの起動**
    - VS Codeでプロジェクトを開く

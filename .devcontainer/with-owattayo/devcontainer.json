@@ -1,11 +1,7 @@
 {
 	"name": "Claude Code in Dev Container example",
-	"image": "mcr.microsoft.com/devcontainers/python:1-3.12-bullseye",
-	"runArgs": [
-		"--cap-add=NET_ADMIN",
-		"--cap-add=NET_RAW",
-		"--network=devcontainers"
-	],
+	"dockerComposeFile": "compose.yaml",
+	"service": "claude-code",
 	"features": {
 		"ghcr.io/devcontainers/features/python": {
 			"version": "none",
@@ -42,9 +38,11 @@
 		}
 	},
 	"remoteUser": "vscode",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"postStartCommand": "sudo /usr/local/bin/init-firewall.sh && sudo /usr/local/bin/update-workspace-owner.sh",
 	"waitFor": "postStartCommand",
 	"mounts": [
+		"source=../,target=/workspaces/${localWorkspaceFolderBasename},type=bind",
 		"source=claude-code-bashhistory,target=/commandhistory,type=volume",
 		"source=claude-code-config,target=/home/vscode/.claude,type=volume",
 		"source=${env:SSH_AUTH_SOCK},target=/ssh-agent,type=bind"
