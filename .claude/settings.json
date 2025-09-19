@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '.transcript_path' | xargs -I{} cat {} | jq -c 'select(.type == \"user\" and (has(\"toolUseResult\") | not)) | {prompt:.message.content}' | tail -n 1 | jq -c --arg notifier $OWATTAYO_NOTIFIER '. + {notifier:$notifier}' | curl --connect-timeout 5 -X POST http://owattayo:8000/notify -H 'Content-Type: application/json' -d @-"
+            "command": "jq -r '.transcript_path' | xargs -I{} cat {} | jq -c 'select(.type == \"user\" and (has(\"toolUseResult\") | not) and (.message.content | type == \"string\")) | { body: .message.content }' | tail -n 1 | jq -c --arg title \"${NOTIFICATION_TITLE}\" '. + { title: $title }' | curl --connect-timeout 5 -X POST \"${NOTIFICATION_ENDPOINT}\" -H 'Content-Type: application/json' -d @-"
           }
         ]
       }

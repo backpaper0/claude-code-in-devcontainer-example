@@ -22,7 +22,8 @@
 		"PROMPT_COMMAND": "history -a",
 		"HISTFILE": "/commandhistory/.bash_history",
 		"UV_LINK_MODE": "copy",
-		"OWATTAYO_NOTIFIER": "${localWorkspaceFolderBasename}",
+		"NOTIFICATION_TITLE": "${localWorkspaceFolderBasename}",
+		"NOTIFICATION_ENDPOINT": "http://owattayo:8000/notify",
 		"SSH_AUTH_SOCK": "/ssh-agent"
 	},
 	"customizations": {
@@ -37,7 +38,7 @@
 					"editor.defaultFormatter": "charliermarsh.ruff",
 					"editor.formatOnSave": true
 				},
-				"python.defaultInterpreterPath": "/workspace/.venv/bin/python"
+				"python.defaultInterpreterPath": "/workspace/${localWorkspaceFolderBasename}/.venv/bin/python"
 			}
 		}
 	},
