@@ -23,6 +23,6 @@ update_owner_if_needed() {
     chown -R ${current_user}:${current_user} ${target_dir}
 }
 
-for target_dir in "/commandhistory" "$(eval echo ~${SUDO_USER})/.claude"; do
+for target_dir in "/commandhistory" "$(eval echo ~${SUDO_USER})/.claude" "/workspaces"; do
     update_owner_if_needed "${target_dir}"
 done

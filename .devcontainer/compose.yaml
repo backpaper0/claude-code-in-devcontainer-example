@@ -1,0 +1,42 @@
+services:
+  devcontainer:
+    image: mcr.microsoft.com/devcontainers/python:3.13
+    command: ["/bin/sh", "-c", "sleep infinity"]
+    cap_add: ["NET_ADMIN", "NET_RAW"]
+    networks:
+      - private_net
+    depends_on: [proxy]
+
+  proxy:
+    image: ubuntu/squid
+    networks:
+      - private_net
+      - public_net
+    volumes:
+      - "./proxy/squid.conf:/etc/squid/conf.d/_squid.conf:ro"
+      - "./proxy/whitelist.txt:/etc/squid/whitelist.txt:ro"
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 128M
+
+  notification:
+    image: ghcr.io/backpaper0/owattayo
+    ports: ["8888:8888"]
+    networks:
+      - private_net
+      - public_net
+    environment:
+      FASTAPI_PORT: 8888
+      DISCORD_WEBHOOK_URL:
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 128M
+
+networks:
+  private_net:
+    internal: true
+  public_net: {}

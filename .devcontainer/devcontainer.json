@@ -1,18 +1,12 @@
 {
-	"image": "mcr.microsoft.com/devcontainers/python:1-3.12-bullseye",
-	"runArgs": [
-		"--cap-add=NET_ADMIN",
-		"--cap-add=NET_RAW",
-		"--network=devcontainers"
-	],
+	"dockerComposeFile": "compose.yaml",
+	"service": "devcontainer",
 	"features": {
 		"ghcr.io/devcontainers/features/python": {
 			"version": "none",
 			"toolsToInstall": "uv,pre-commit"
 		},
-		"ghcr.io/devcontainers/features/node": {},
-		"./setup-for-claude-code": {},
-		"./workspace-owner": {}
+		"ghcr.io/devcontainers/features/node": {}
 	},
 	"containerEnv": {
 		"CLAUDE_CONFIG_DIR": "/home/vscode/.claude",
@@ -21,8 +15,11 @@
 		"HISTFILE": "/commandhistory/.bash_history",
 		"UV_LINK_MODE": "copy",
 		"NOTIFICATION_TITLE": "${localWorkspaceFolderBasename}",
-		"NOTIFICATION_ENDPOINT": "http://owattayo:8000/notify",
-		"SSH_AUTH_SOCK": "/ssh-agent"
+		"NOTIFICATION_ENDPOINT": "http://notification:8888/notify",
+		"SSH_AUTH_SOCK": "/ssh-agent",
+		"http_proxy": "http://proxy:3128",
+		"https_proxy": "http://proxy:3128",
+		"no_proxy": "localhost,127.0.0.1,proxy,notification"
 	},
 	"remoteEnv": {
 		"npm_config_preifx": "/home/vscode/.local"
@@ -45,9 +42,11 @@
 	},
 	"remoteUser": "vscode",
 	"postCreateCommand": ".devcontainer/install-claude-code.sh",
-	"postStartCommand": "sudo /usr/local/bin/init-firewall.sh && sudo /usr/local/bin/update-workspace-owner.sh",
+	"postStartCommand": "sudo .devcontainer/update-workspace-owner.sh",
 	"waitFor": "postStartCommand",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"mounts": [
+		"source=..,target=/workspaces/${localWorkspaceFolderBasename},type=bind",
 		"source=claude-code-bashhistory,target=/commandhistory,type=volume",
 		"source=claude-code-config,target=/home/vscode/.claude,type=volume",
 		"source=${env:SSH_AUTH_SOCK},target=/ssh-agent,type=bind"
