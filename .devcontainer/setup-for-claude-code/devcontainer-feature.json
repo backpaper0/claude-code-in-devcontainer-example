@@ -3,6 +3,6 @@
     "version": "1.0.0",
     "name": "Setup for Claude Code",
     "installsAfter": [
-        "ghcr.io/anthropics/devcontainer-features/claude-code"
+        "ghcr.io/devcontainers/features/node"
     ]
 }
