@@ -29,7 +29,8 @@
 			"extensions": [
 				"ms-python.python",
 				"charliermarsh.ruff",
-				"redhat.vscode-yaml"
+				"redhat.vscode-yaml",
+				"anthropic.claude-code"
 			],
 			"settings": {
 				"[python]": {
