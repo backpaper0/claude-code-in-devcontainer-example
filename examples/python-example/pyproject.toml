@@ -1,0 +1,20 @@
+[project]
+name = "python-example"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]>=0.120.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.2",
+    "taskipy>=1.14.1",
+    "ty>=0.0.1a24",
+]
+
+[tool.taskipy.tasks]
+check = "ruff format --check && ruff check && ty check"
+fix = "ruff format && ruff check --select I --fix && ruff check --fix"

@@ -17,6 +17,7 @@ vscode.dev
 repo.maven.apache.org
 repo.spring.io
 pypi.org
+files.pythonhosted.org
 registry.npmjs.org
 api.anthropic.com
 sentry.io
