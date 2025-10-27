@@ -15,7 +15,7 @@ download.visualstudio.microsoft.com
 vscode-sync.trafficmanager.net
 vscode.dev
 repo.maven.apache.org
-repo.spring.io
+.spring.io
 pypi.org
 files.pythonhosted.org
 registry.npmjs.org
